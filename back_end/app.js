@@ -1,23 +1,25 @@
-const exrpress = require('express');
-const app = exrpress();
-const mysql = require('mysql');
+const express = require('express');
+const cors = require('cors')
+const app = express();
 
-const db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'GHRr4Q2c',
-  database : 'groupomania'
-});
+// Router importation 
+const userRoute = require('./routes/user');
 
-/* app.get('/register', (req, res) => {
-   db.query (
-      "INSERT INTO animal (espece, sexe) VALUE ('chat','M')",
-      (err, results) => {
-         console.log(err)
-         res.send(results);
-      }
-   );
-}); */
+
+//db
+const db = require('./models/index');
+
+
+/* db.authenticate()
+   .then(() => console.log('aaaaaaaaaa'))
+   .catch(err => console.log('error:' + err)) */
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// router
+app.use('/user', userRoute);
 
 // App exportation
 module.exports = app;
