@@ -1,11 +1,11 @@
 const express = require ('express');
 const router = express.Router ();
-const db = require ('../config/db')
 const userCtrl = require ('../controllers/user');
 
 
-router.get('/', /* userCtrl.signUp */); 
+router.get('/signup', userCtrl.signup); 
 
+router.get('/',userCtrl.ok);
 
 // Router exportation
 module.exports = router;

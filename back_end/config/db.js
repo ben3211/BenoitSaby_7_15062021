@@ -1,4 +1,4 @@
-/* const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const db = mysql.createConnection({
    host     : 'localhost',
@@ -14,4 +14,11 @@ const db = mysql.createConnection({
    }
 });
 
-module.exports = db; */
+db.connect(function(err) {
+   if (err) throw err;
+   console.log("Connected to db");
+});
+
+
+
+module.exports = db;

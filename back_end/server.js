@@ -1,6 +1,6 @@
 const http = require('http');
 const app = require ('./app');
-const db = require("./models/index");
+/* const db = require("./models/index"); */ // Sequelize
 
 // Make sure the port provided is number or string
 const normalizePort = val => {
@@ -13,9 +13,9 @@ const normalizePort = val => {
      return port;
    }
    return false;
- };
- const port = normalizePort(process.env.PORT || '3000'); // Default port for the sending request 
- app.set('port', port);
+};
+const port = normalizePort(process.env.PORT || '3000'); // Default port for the sending request 
+app.set('port', port);
 
  // characterize errors  
 const errorHandler = error => {
@@ -36,16 +36,15 @@ const errorHandler = error => {
      default:
        throw error;
    }
- };
+};
 
 // node server will return express application.  
 const server = http.createServer(app);
 
+/* db.sequelize.sync().then( function() {})  */ // Sequelize
 
- 
-db.sequelize.sync().then( function() {
-   server.on('error', errorHandler);
-   server.on('listening', () => {
+server.on('error', errorHandler);
+server.on('listening', () => {
    const address = server.address();
    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
    console.log('Listening on ' + bind);
@@ -53,4 +52,3 @@ db.sequelize.sync().then( function() {
 
 // port event listener
 server.listen(port);
-});

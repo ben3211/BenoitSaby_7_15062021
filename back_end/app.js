@@ -5,21 +5,16 @@ const app = express();
 // Router importation 
 const userRoute = require('./routes/user');
 
-
 //db
-const db = require('./models/index');
-
-
-/* db.authenticate()
-   .then(() => console.log('aaaaaaaaaa'))
-   .catch(err => console.log('error:' + err)) */
+const db = require ('./config/db');
+/* const db = require('./models/index'); */  // sequelize
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // router
-app.use('/user', userRoute);
+app.use('/', userRoute);
 
 // App exportation
 module.exports = app;
