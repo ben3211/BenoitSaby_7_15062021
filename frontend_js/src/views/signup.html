@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- link -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+    <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
+    <link rel="icon" href="#" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <title>Groupomania</title>
+</head>
+
+<body class="w3-container">
+   <section class="w3-display-middle">
+      <form class="w3-modal-content w3-card-8 w3-animate-zoom" method="POST" action="" id="form-signup">
+         <p id="error" class="w3-center w3-text-red"></p>
+         <h2 class="w3-text-blue w3-center">Signup</h2>
+         <!-- <p>      
+         <label class="w3-text-black fa fa-user" for="lastname"><b> Last name</b></label> 
+         <input class="w3-input w3-border" name="lastname" id="lastname" placeholder="Nom" type="text" pattern="[a-zA-Z]{2,20}" required></p>
+         <p>      
+         <label class="w3-text-black fa fa-user" for="firstname"><b> First name</b></label>
+         <input class="w3-input w3-border" name="firstname" id="firstname" placeholder="Prénom" type="text" pattern="[a-zA-Z]{2,20}" required></p>
+         <p> -->
+         <p>      
+         <label class="w3-text-black fa fa-user" for="username"><b> Username</b></label> 
+         <input class="w3-input w3-border" name="username" id="username" placeholder="username" type="text" pattern="[a-zA-Z]{2,20}" required></p>
+         <p>         
+         <label class="w3-text-black fa fa-envelope" for="email"><b> Adress mail</b></label> 
+         <input class="w3-input w3-border" name="email" id="email" placeholder="Mail@example.com" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required></p>
+         <p>
+         <label class="w3-text-black fa fa-lock" for="password"><b> Password</b></label>
+         <input class="w3-input w3-border w3-hover-border-black" name="password" id="password" type="password" placeholder="Enter Password" required>
+         <div class="w3-center">
+         <input type="submit" name="submit" id="signup-button" value="Creat Account" class="w3-btn w3-light-blue w3-padding w3-margin w3-round-large">
+         </div>
+      </form>
+   </section>
+
+   <!-- script -->
+   <script src="../js/signup.js"></script>
+
+</body>
+</html>
