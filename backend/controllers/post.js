@@ -4,7 +4,7 @@ const db = require("../config/db");
 
 /********************************* Posts **********************************/
 exports.createPost = (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.body.fk_userId;
   const content = req.body.content;
   let sql = "INSERT INTO post VALUES(NULL, NULL, ?, NULL, NOW(), NOW(), ?)";
   db.query(sql, [content, userId]),
@@ -19,16 +19,20 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  let sql = "SELECT * FROM post";
+  let sql = `SELECT post.id, post.fk_userId, post.content,
+  DATE_FORMAT(DATE(post.createdAt), '%d/%m/%Y') AS date, TIME(post.createdAt) AS time,
+  user.username
+  FROM post JOIN user
+  ON post.fk_userId = user.id`;
   db.query(sql, (err, results) => {
     if (err) throw err;
-    console.log(results);
-    res.send("Posts fetched..");
+    /* console.log(results); */
+    return res.status(200).json(results);
   });
 };
 
 exports.getOnePost = (req, res, next) => {
-  let sql = `Update * FROM post WHERE id = ${req.params.id}`;
+  let sql = `SELECT * FROM post WHERE id = ${req.params.id}`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     console.log(result);

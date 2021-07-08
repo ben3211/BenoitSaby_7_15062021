@@ -16,21 +16,41 @@
 </head>
 
 
-<body class="w3-center">
+<body class="w3-theme-l5">
+   <!-- Navbar -->
+   <div class="w3-top">
+      <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+         <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+            href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+         <a href="./home.html" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i
+               class="fa fa-home w3-margin-right"></i>Groupomania</a>
+         <a href="./profile.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"
+            title="Account Settings"><i class="fa fa-user"></i></a>
+         <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a> -->
+         <!-- <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+      <a href="#" class="w3-bar-item w3-button">One new friend request</a>
+      <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
+      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
+    </div>
+  </div> -->
+         <button type="button" id="logoutButton"
+            class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout"><i
+               class="fa fa-sign-out-alt"></i>
+            <img src="" class="w3-circle" style="height:23px;width:23px" alt="Logout">
+            <!-- <i class="fa fa-sign-out-alt"></i> -->
+         </button>
 
-   <!-- Profile -->
-<!--    <div class="w3-card w3-round w3-white">
-      <div class="w3-container">
-         <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-         <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
       </div>
    </div>
-   <br> -->
 
+
+   <!-- Navbar on small screens -->
+   <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+   </div>
 
    <div class="w3-container" id="contact">
       <h2>Profile</h2>
@@ -38,14 +58,15 @@
          <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
          <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
          <p>Questions? Go ahead, ask them:</p> -->
-         <p class="w3-center"><img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+      <p class="w3-center"><img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
       <form action="/action_page.php" target="_blank">
          <p><input class="w3-input w3-border" type="text" placeholder="Username" required name="Username"></p>
          <p><input class="w3-input w3-border" type="text" placeholder="Job" required name="Job"></p>
          <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
          <p><input class="w3-input w3-border" type="text" placeholder="Birthday" required name="Date"></p>
          <p><input class="w3-input w3-border" type="text" placeholder="Location" required name="Location"></p>
-         <p><textarea class="w3-input w3-border" type="text" placeholder="Description" required name="Description"></textarea></p>
+         <p><textarea class="w3-input w3-border" type="text" placeholder="Description" required
+               name="Description"></textarea></p>
          <button type="submit" class="w3-button w3-green w3-third">Save changes</button>
       </form>
    </div>
@@ -55,10 +76,19 @@
       <h5></h5>
    </footer>
 
+   <script></script>
    <script>
 
+      // Used to toggle the menu on smaller screens when clicking on the menu button
+      function openNav() {
+         var x = document.getElementById("navDemo");
+         if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+         } else {
+            x.className = x.className.replace(" w3-show", "");
+         }
+      }
    </script>
-
 </body>
 
 </html>
