@@ -7,34 +7,33 @@ const bcrypt = require("bcrypt");
 
 /****************************************** Signup ***************************************/
 exports.signup = (req, res, next) => {
-  const { username, email, password, imageUrl, isAdmin, createdAt, updateAt } =
-    req.body;
-  // Check email
+  let username = req.body.username;
+  let email = req.body.email;
+  let password = req.body.password;
+  let validityPassword = req.body.validityPassword;
+  let error = [];
+
   db.query(
     "SELECT email FROM user WHERE email = ?",
     [email],
-    async (error, results) => {
-      if (error) {
-        console.log(error);
-      }
+    (error, results) => {
       if (results.length > 0) {
         return res.status(401).json({ error: "That email is already in use" });
+      } else {
+        bcrypt
+          .hash(req.body.password, 10)
+          .then((hash) => {
+            let sql =
+              "INSERT INTO user VALUES(NULL, ?, ?, ?, null, null, null, null)";
+            db.query(sql, [username, email, hash], (error, results) => {
+              if (error) {
+                return res.status(400).json({ error: "Request error" });
+              }
+              res.status(201).json({ message: "New user !" });
+            });
+          })
+          .catch((error) => res.status(500).json({ error: "MySql" }));
       }
-      // Bcrypt
-      let hashedPassword = await bcrypt.hash(req.body.password, 10);
-      //Database
-      db.query(
-        "INSERT INTO user SET ?",
-        { username: username, email: email, password: hashedPassword },
-        (error, results) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(results);
-            return res.status(201).json({ error: "Profile created" });
-          }
-        }
-      );
     }
   );
 };
@@ -44,8 +43,8 @@ exports.login = (req, res, next) => {
   const username = req.body.username;
   const insertLogin = [username];
   const queryLogin = "SELECT * FROM user WHERE username = ?";
-  db.query(queryLogin, insertLogin, (error, rows, fields) => {
-    const result = rows[0];
+  db.query(queryLogin, insertLogin, (error, results, fields) => {
+    const result = results[0];
 
     if (!result) {
       return res.status(404).json({

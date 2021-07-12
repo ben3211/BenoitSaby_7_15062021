@@ -28,9 +28,10 @@ loginButton.addEventListener("click", (e) => {
           console.log(data);
           localStorage.setItem("userId", data.id);
           localStorage.setItem("token", data.token);
-          window.location.href = "./src/views/home.html";
+          window.location.href = "./src/views/home.html?userId=" + data.id;
         })
-        .catch((error) => console.error("error:" + error));
+        .catch(error => console.error("error:" + error));
+        console.log("username or password invalid")
     }
   });
 });
