@@ -73,14 +73,15 @@ exports.deletePost = (req, res, next) => {
       db.query(sql, [postId, userId], (err, result) => {
         if (err) throw err;
         console.log(result);
-        res.send("Post deleted");
         console.log("Post deleted");
+        // changed line
+        return res.status(200).json(result);
       });
     }
   });
 };
 
-exports.LikePost = (req, res, next) => {};
+exports.likePost = (req, res, next) => {};
 
 /******************************** Comments *********************************/
 exports.addComment = (req, res, next) => {
@@ -93,8 +94,47 @@ exports.addComment = (req, res, next) => {
    db.query(sql,[content, fk_userId, fk_postId], (err, result) => {
       if (err) throw(err);
       console.log(err);
-      result.send("comment created");
+      return res.status(200).json(result);
    });
 };
 
-exports.deleteComment = (req, res, next) => {};
+exports.getComment = (req, res, next) => {
+   const postId = req.params.id;
+   let sql = `SELECT comment.content, DATE_FORMAT(DATE(comment.createdAt), '%d/%m/%Y') AS date, TIME(comment.createdAt) AS time, comment.id,
+   comment.fk_userId, user.username
+   FROM comment 
+   JOIN user ON comment.fk_userId = user.id 
+   WHERE fk_postId = ? 
+   ORDER BY comment.createdAt DESC`;
+   db.query(sql, [postId], (err, result) => {
+      if (err) throw(err);
+      console.log(err);
+      console.log(result);
+      return res.status(200).json(result);
+   });
+};
+   
+
+
+exports.deleteComment = (req, res, next) => {
+   const token = req.headers.authorization.split(" ")[1];
+   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+   const userId = decodedToken.userId;
+   let commentId = req.params.id;
+   let sql = "SELECT * from comment where id = ?";
+   db.query(sql, [commentId], (err, result) => {
+     if (err) {
+       throw err;
+     }
+     if (userId == result[0].fk_userId) {
+       let sql = "DELETE FROM comment WHERE id = ? AND fk_userId = ?";
+       db.query(sql, [commentId, userId], (err, result) => {
+         if (err) throw err;
+         console.log(result);
+         console.log("Post deleted");
+         // changed line
+         return res.status(200).json(result);
+       });
+     }
+   });
+ };

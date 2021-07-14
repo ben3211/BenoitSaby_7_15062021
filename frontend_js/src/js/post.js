@@ -53,8 +53,8 @@ function displayAllPosts(posts) {
                                           </div>
                                              <span id="link_comments">Comments<a href="${newUrl}" class="w3-text-blue" style="text-decoration:none"></span> 
                                              <span id="link_comments">Comments<a href="${newUrl}" class='w3-text-blue'></a></span>
-                                    </div>
-                                 </div>`;
+                                       </div>
+                                    </div>`;
 
       // Delete button
       const deleteButton = document.getElementById(`deleteButton${posts.id}`);

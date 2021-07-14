@@ -7,7 +7,7 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.post('/home/logout', userCtrl.logout);
 
-
+// Profile
 router.get('/home/profiles', auth, userCtrl.getAllProfiles);
 router.get('/profile/:id', auth, userCtrl.getOneProfile);
 router.put('/profile/:id', auth, userCtrl.updateProfile);

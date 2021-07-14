@@ -9,10 +9,13 @@ router.get('/posts', auth, postCtrl.getAllPosts);
 router.get('/:id', auth, postCtrl.getOnePost);
 router.put('/:id', auth, postCtrl.updatePost);
 router.delete('/:id', auth, postCtrl.deletePost);
-router.post('/like/:id', auth, postCtrl.LikePost);
 
+router.get('/comment/:id', auth, postCtrl.getComment);
 router.post('/comment/:id', auth, postCtrl.addComment);
 router.delete('/comment/:id', auth, postCtrl.deleteComment);
+
+router.post('/like/:id', auth, postCtrl.likePost);
+
 
 // Router exportation
 module.exports = router;
