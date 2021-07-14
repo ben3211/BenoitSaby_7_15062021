@@ -31,11 +31,18 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getOnePost = (req, res, next) => {
-  let sql = `SELECT * FROM post WHERE id = ${req.params.id}`;
-  db.query(sql, (err, result) => {
+  let sql = `SELECT post.id, post.fk_userId, post.content,
+  DATE_FORMAT(DATE(post.createdAt), '%d/%m/%Y') AS date, TIME(post.createdAt) AS time,
+  user.username
+  FROM post JOIN user
+  ON post.fk_userId = user.id
+  WHERE post.id = ?
+  ORDER BY post.createdAt DESC`;
+  const postId = req.params.id;
+  db.query(sql, [postId], (err, result) => {
     if (err) throw err;
     console.log(result);
-    res.send("Post fetched..");
+    return res.status(200).json(result);
   });
 };
 
@@ -61,7 +68,7 @@ exports.deletePost = (req, res, next) => {
     if (err) {
       throw err;
     }
-    if (userId == result[0].userId) {
+    if (userId == result[0].fk_userId) {
       let sql = "DELETE FROM post WHERE id = ? AND fk_userId = ?";
       db.query(sql, [postId, userId], (err, result) => {
         if (err) throw err;
@@ -76,6 +83,18 @@ exports.deletePost = (req, res, next) => {
 exports.LikePost = (req, res, next) => {};
 
 /******************************** Comments *********************************/
-exports.addComment = (req, res, next) => {};
+exports.addComment = (req, res, next) => {
+   const token = req.headers.authorization.split(" ")[1];
+   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+   const fk_userId =  decodedToken.userId; 
+   let fk_postId = req.params.id;
+   let content = req.body.content;
+   let sql = 'INSERT INTO comment VALUES(NULL, ?, NOW(), ?, ?)';
+   db.query(sql,[content, fk_userId, fk_postId], (err, result) => {
+      if (err) throw(err);
+      console.log(err);
+      result.send("comment created");
+   });
+};
 
 exports.deleteComment = (req, res, next) => {};

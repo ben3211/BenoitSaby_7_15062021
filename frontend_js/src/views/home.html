@@ -169,7 +169,8 @@
             <section id='postSection'></section>
 
             <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-               <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+               <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-margin-right"
+                  style="width:60px">
                <span class="w3-right w3-opacity">Date xx/xx/xx</span>
                <h4>Name</h4><br>
                <hr class="w3-clear">
@@ -193,20 +194,27 @@
                   Delete</button>
                <div class="w3-row w3-section">
 
-
-                  <form method="post" id="form__update${posts.id}" class="update__post">
-                     <textarea id="contentUpdate${posts.id}" name="contentUpdate">${posts.content}</textarea>
-                     <input id="submit__update${posts.id}" type="submit" value="Envoyer" />
-                     </form>
-
-
+                  <form method="post" id="form__update" class="update__post">
+                     <textarea id="contentUpdate" name="contentUpdate">${posts.content}</textarea>
+                     <input id="submit__update" type="submit" value="Envoyer" />
+                  </form>
 
                   <button type='button' id="commentButton" class="w3-col w3-button w3-theme" style="width:50px"><i
                         class="w3-xlarge fa fa-pencil"></i></button>
                   <div class="w3-rest">
-                     <input class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
+                     <input id="commentContent" class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
                   </div>
                </div>
+
+               <section id="display_comment" class="w3-small">
+                  <span class="w3-right w3-opacity">Date xx/xx/xx</span>
+                  <h4>Name</h4>
+                  <hr class="w3-clear">
+                  <p>Content :<br>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                  ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <button type="button" id="comment_delete_button" class="w3-button w3-theme w3-right w3-margin-bottom"><i class="fa fa-times-circle"></i>
+               </section>
             </div>
 
             <!-- <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -290,7 +298,6 @@
 
 
    <script src="../js/post.js"></script>
-   <script src="../js/comment.js"></script>
    <script src="../js/logout.js"></script>
    <script>
       // Accordion

@@ -1,23 +1,31 @@
 // Jsonwebtoken => token verification
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const mysql = require("mysql2");
+const db = require("../config/db");
 
 module.exports = (req, res, next) => {
-   try { 
-      // Get token, const token return an array with 'Bearer' as 1st element and the token as second (we selectionne the second)
-      const token = req.headers.authorization.split(' ')[1];
-      // Decode token
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      // DecodedToken is an JS object, userId selection
-      const userId = decodedToken.userId;
-      // If there is a userId => check that it corresponds to the token 
-      if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-      } else {
+  try {
+    // Get token, const token return an array with 'Bearer' as 1st element and the token as second (we selectionne the second)
+    const token = req.headers.authorization.split(" ")[1];
+    // Decode token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    // DecodedToken is an JS object, userId selection
+    const userId = decodedToken.userId;
+    // Id sql request
+    let sql = "SELECT COUNT(id) FROM user WHERE id=?";
+    db.query(sql, [userId], (err, result) => {
+      if (err) throw err;
+    // If there is a userId => check that it corresponds to the token
+    if (req.body.userId && req.body.userId !== userId) {
+      throw "Invalid user ID";
+    } else {
       next();
-      }
-   } catch {
-      res.status(401).json({
-      error: new Error('Invalid request!')
-      });
-   }
+    }
+    });
+
+  } catch {
+    res.status(401).json({
+      error: new Error("Invalid request!"),
+    });
+  }
 };

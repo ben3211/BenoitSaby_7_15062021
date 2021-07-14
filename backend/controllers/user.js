@@ -51,9 +51,9 @@ exports.login = (req, res, next) => {
         error: "Username not found",
       });
     }
-    const id = result.id;
+    const userId = result.id;
     const username = result.username;
-    const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: result.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES,
     });
     bcrypt
@@ -66,7 +66,7 @@ exports.login = (req, res, next) => {
         }
 
         res.status(200).json({
-          id: id,
+          id: userId,
           username: username,
           token: token,
         });

@@ -4,15 +4,29 @@
  * create and Display users post  
 
 **/
+// New Url post with coments page
+function urlPostAndComment(postId) {
+  var url = new URL(window.location.href + "/../comment.html");
+  var UrlSearchParams = url.searchParams;
+  UrlSearchParams.set("id", postId);
+  url.search = UrlSearchParams.toString();
+  return (newUrl = url.toString());
+}
 
-// Const declarations
+// Variables declarations
+// Posts
 const postButton = document.getElementById("postButton");
 const postSection = document.getElementById("postSection");
 const content = document.getElementById("content");
+// Comments
+const commentButton = document.getElementById("commentButton");
+const displayComment = document.getElementById("display_comment");
+const commentDeleteButton = document.getElementById("comment_delete_button");
 
 // Display posts
 function displayAllPosts(posts) {
   posts.reverse(posts.createdAt).forEach((posts) => {
+    urlPostAndComment(posts.id);
     // If user created the post
     if (localStorage.userId == posts.fk_userId) {
       postSection.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -32,17 +46,15 @@ function displayAllPosts(posts) {
                                     
 
                                     <div class="w3-row w3-section">
-                                       <button type='button' id="commentButton" class="w3-col w3-button w3-theme" style="width:50px"><i
+                                       <button type='button' id="commentButton${posts.id}" class="w3-col w3-button w3-theme" style="width:50px"><i
                                        class="w3-xlarge fa fa-pencil"></i></button>
-                                       <div class="w3-rest">
-                                          <input class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
-                                       </div>
+                                          <div class="w3-rest">
+                                             <input id="commentContent" class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
+                                          </div>
+                                             <span id="link_comments">Comments<a href="${newUrl}" class="w3-text-blue" style="text-decoration:none"></span> 
+                                             <span id="link_comments">Comments<a href="${newUrl}" class='w3-text-blue'></a></span>
                                     </div>
                                  </div>`;
-
-      // Comment
-
-
 
       // Delete button
       const deleteButton = document.getElementById(`deleteButton${posts.id}`);
@@ -52,22 +64,48 @@ function displayAllPosts(posts) {
             method: "DELETE",
             headers: {
               "content-type": "application/json",
-              "Authorization": `Bearer ${localStorage.token}`
+              Authorization: `Bearer ${localStorage.token}`,
             },
           })
-          .then (response => {
-            if (response.ok) {
-                response.json()
-                .then( response =>  {
-                    location.reload()
-                    res.status(201).json({ response })    
-                })
-                .catch (error => console.log(error))
-            }   
-        })
-        .catch (error => res.status(500).json({ error: "no put" }))
+            .then((response) => {
+              if (response.ok) {
+                response
+                  .json()
+                  .then((response) => {
+                    location.reload();
+                    res.status(201).json({ response });
+                  })
+                  .catch((error) => console.log(error));
+              }
+            })
+            .catch((error) => res.status(500).json({ error: "no put" }));
         }
       });
+
+      /*       // Add comment
+      commentButton.addEventListener("click", (e) => {
+         fetch("http://localhost:3000/comment/" + comment.id, {
+            method: 'post',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify({
+               commentContent: content.value 
+           })
+         })
+         .then (response => {
+            if (response.ok) {
+                response.json()
+                .then( comments => {
+                    generationComments(comments);
+                    location.reload();
+                })
+            }
+        })
+        .catch (error => console.log(error))
+       });
+ */
 
       // For the other users
     } else {
@@ -78,18 +116,21 @@ function displayAllPosts(posts) {
                                     <hr class="w3-clear">
                                     <p><br>${posts.content}</p>
                                     <div class="w3-row-padding" style="margin:0 -16px">
-                                       <p>image</p>
-                                       <div class="w3-row w3-section">
-                                          <button type='button' id="commentButton" class="w3-col w3-button w3-theme" style="width:50px"><i
-                                          class="w3-xlarge fa fa-pencil"></i></button>
-                                             <div class="w3-rest">
-                                             <input class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
-                                       </div>
+  
+                                    <div class="w3-row w3-section">
+                                       <button type='button' id="commentButton${posts.id}" class="w3-col w3-button w3-theme" style="width:50px"><i
+                                       class="w3-xlarge fa fa-pencil"></i></button>
+                                          <div class="w3-rest">
+                                             <input id="commentContent" class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
+                                          </div>
+
                                     </div>
                                  </div>`;
     }
   });
 }
+
+
 
 // Execution
 postButton.addEventListener("click", (e) => {
@@ -98,7 +139,7 @@ postButton.addEventListener("click", (e) => {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "Authorization": `Bearer ${localStorage.token}`
+      Authorization: `Bearer ${localStorage.token}`,
     },
     body: JSON.stringify({
       content: content.value,
@@ -117,7 +158,7 @@ postButton.addEventListener("click", (e) => {
     });
 });
 
-// Get all posts
+// Get all post
 fetch("http://localhost:3000/posts", {
   headers: { Authorization: `Bearer ${localStorage.token}` },
 })
