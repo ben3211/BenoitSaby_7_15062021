@@ -15,14 +15,14 @@ const verifyPassword = document.getElementById("verifyPassword");
 const signupButton = document.getElementById("signupButton");
 
 form.addEventListener("change", function () {
-  //Si tout est valide :
+  // Ok
   if (
     username.checkValidity() &&
     email.checkValidity() &&
     password.checkValidity() &&
     verifyPassword.value.length >= 8
   ) {
-    //Le bouton est cliquable :
+    // error
     signupButton.removeAttribute("disabled");
   }
 });
@@ -38,22 +38,6 @@ signupButton.addEventListener("click", (e) => {
     signup();
   }
 });
-
-/* // Form validation
-  let valid = true;
-  for (let input of document.querySelectorAll(
-    'input[type="text"], input[type="email"]'
-  )) {
-    valid = valid && input.reportValidity();
-    if (!valid) {
-      break;
-    }
-  }
-  if (valid) {
-    e.preventDefault();
-    signup();
-  }
-}); */
 
 /****************************************** Request ***************************************/
 
@@ -93,6 +77,8 @@ const error_password = document.getElementById("error_password");
 usernameValidity.addEventListener("blur", () => {
   if (!usernameValidity.checkValidity()) {
     error_username.textContent = "username invalid";
+    error_username.setAttribute = ('class');
+    error_username.className = ('w3-text-red w3-margin-left');
   } else {
     error_username.textContent = "";
   }
@@ -101,6 +87,8 @@ usernameValidity.addEventListener("blur", () => {
 emailValidity.addEventListener("blur", () => {
   if (!emailValidity.checkValidity()) {
     error_email.textContent = "mail adress invalid";
+    error_email.setAttribute = ('class');
+    error_email.className = ('w3-text-red w3-margin-left');
   } else {
     error_email.textContent = "";
   }
@@ -108,7 +96,9 @@ emailValidity.addEventListener("blur", () => {
 
 passworValidity.addEventListener("blur", () => {
   if (!passworValidity.checkValidity()) {
-    error_password.textContent = "Please make your password more complex ";
+    error_password.textContent = "Please rise up password complexity";
+    error_password.setAttribute = ('class');
+    error_password.className = ('w3-text-red w3-margin-left');
   } else {
     error_password.textContent = "";
   }

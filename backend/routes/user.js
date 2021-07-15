@@ -5,7 +5,6 @@ const userCtrl = require ('../controllers/user');
 
 router.post('/signup', userCtrl.signup); 
 router.post('/login', userCtrl.login);
-router.post('/home/logout', userCtrl.logout);
 
 // Profile
 router.get('/home/profiles', auth, userCtrl.getAllProfiles);

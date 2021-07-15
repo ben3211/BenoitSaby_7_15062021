@@ -50,13 +50,16 @@
          <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
          <p>Questions? Go ahead, ask them:</p> -->
       <p class="w3-center"><img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-      <form action="/action_page.php" target="_blank">
-         <p><input class="w3-input w3-border" type="text" placeholder="Username" required name="Username"></p>
-         <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
-         <p><input class="w3-input w3-border" type="password" placeholder="password" required name="Location"></p>
-         <p><input class="w3-input w3-border" type="password" placeholder="Verify password" required name="Location"></p>
-         <button type="submit" class="w3-button w3-green w3-third">Save changes</button>
-         <button type="submit" class="w3-button w3-green w3-right w3-red w3-third">Delete profile</button>
+      <form method="POST">
+         <p><input id="username" class="w3-input w3-border" type="text" placeholder="Username" name="Username" pattern="[a-zA-Z]{2,20}" required></p>
+         <p id="error_username" class="error__input"></p>
+         <p><input id="email" class="w3-input w3-border" type="text" placeholder="Email" name="Email"></p>
+         <p id="error_email" class="error__input"></p>
+         <!--  <p><input class="w3-input w3-border" type="password" placeholder="Change password" required name="Location"></p>
+         <p><input class="w3-input w3-border" type="password" placeholder="Verify password" required name="Location"></p> -->
+         <button id="update_button" type="submit" class="w3-button w3-indigo w3-third">Save changes</button>
+         <button id="delete_button" type="submit" class="w3-button w3-right w3-pink w3-third">Delete
+            profile</button>
       </form>
    </div>
 
@@ -65,7 +68,10 @@
       <h5></h5>
    </footer>
 
-   <script></script>
+   <!-- <script src="../js/post.js"></script> -->
+
+
+
    <script>
 
       // Used to toggle the menu on smaller screens when clicking on the menu button
@@ -78,6 +84,10 @@
          }
       }
    </script>
+
+   <script src="../js/profile.js"></script>
+   <script src="../js/logout.js"></script>
+
 </body>
 
 </html>

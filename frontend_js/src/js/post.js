@@ -1,10 +1,11 @@
 /** 
  
  * home.html page
- * create and Display users post  
+ * create and Display users posts  
 
 **/
-// New Url post with coments page
+
+// New Url post going to comments page
 function urlPostAndComment(postId) {
   var url = new URL(window.location.href + "/../comment.html");
   var UrlSearchParams = url.searchParams;
@@ -68,44 +69,17 @@ function displayAllPosts(posts) {
             },
           })
             .then((response) => {
-              if (response.ok) {
-                response
-                  .json()
-                  .then((response) => {
-                    location.reload();
-                    res.status(201).json({ response });
-                  })
-                  .catch((error) => console.log(error));
-              }
+              return response.json();
             })
-            .catch((error) => res.status(500).json({ error: "no put" }));
+            .then(function (data) {
+              console.log(data, "Post deleted");
+              location.reload();
+            })
+            .catch(function (error) {
+              return error;
+            });
         }
       });
-
-      /*       // Add comment
-      commentButton.addEventListener("click", (e) => {
-         fetch("http://localhost:3000/comment/" + comment.id, {
-            method: 'post',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": `Bearer ${localStorage.token}`
-            },
-            body: JSON.stringify({
-               commentContent: content.value 
-           })
-         })
-         .then (response => {
-            if (response.ok) {
-                response.json()
-                .then( comments => {
-                    generationComments(comments);
-                    location.reload();
-                })
-            }
-        })
-        .catch (error => console.log(error))
-       });
- */
 
       // For the other users
     } else {
@@ -130,11 +104,14 @@ function displayAllPosts(posts) {
   });
 }
 
-
-
 // Execution
 postButton.addEventListener("click", (e) => {
   e.preventDefault();
+  addPost();
+  getAllPost ();
+});
+
+function addPost() {
   fetch("http://localhost:3000/add", {
     method: "POST",
     headers: {
@@ -149,27 +126,30 @@ postButton.addEventListener("click", (e) => {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      console.log(data);
-      location.reload();
+    .then(function () {
+       console.log("Post added");
+    })
+    .catch(function (error) {
+      return error;
+    });
+}
+
+
+// Get all post
+function getAllPost() {
+  fetch("http://localhost:3000/posts", {
+    headers: { Authorization: `Bearer ${localStorage.token}` },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((posts) => {
+      displayAllPosts(posts);
+      console.log(posts);
+      return posts;
     })
     .catch((error) => {
       console.log(error);
     });
-});
-
-// Get all post
-fetch("http://localhost:3000/posts", {
-  headers: { Authorization: `Bearer ${localStorage.token}` },
-})
-  .then((response) => {
-    return response.json();
-  })
-  .then((posts) => {
-    displayAllPosts(posts);
-    console.log(posts);
-    return posts;
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+}
+getAllPost();

@@ -34,6 +34,7 @@ function displayOnePost(post) {
   const commentContent = document.getElementById("commentContent");
   const commentButton = document.getElementById("comment_button");
   // Function
+  
   commentButton.addEventListener("click", (e) => {
     fetch("http://localhost:3000/comment/" + id, {
       method: "post",
@@ -49,7 +50,6 @@ function displayOnePost(post) {
         if (response.ok) {
           response.json().then((comments) => {
             displayComments(comments);
-            location.reload();
           });
         }
       })

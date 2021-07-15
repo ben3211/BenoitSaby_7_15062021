@@ -79,46 +79,44 @@ exports.login = (req, res, next) => {
   });
 };
 
-/*   let username = req.body.username;
-  let password = req.body.password;
-  let sqlInserts = [username];
-  let sql = "SELECT * From user WHERE username=?";
-  sql = mysql.format(sql, sqlInserts);
-  new Promise((resolve, reject) => {
-    db.query(sql, (err, result) => {
-      //Si erreur :
-      if (err) reject({ err });
+exports.updateProfile = (req, res, next) => {
+   if (req.body.username == '' || req.body.email == '') {
+      return res.status(500).json({ error: 'Fields are empty' });
+   }
+   if (!regexEmail.test(req.body.email)) {
+      return res.status(500).json({ error: 'Email adress invalid' });
+   }
 
-      //Si le resultat est vide :
-      if (!result) {
-        reject({ message: "Username not found" });
-      }
-      //Sinon :
-      else {
-        bcrypt.compare(password, result[0].password)
-        .then((valid) => {
-          if (!valid) return reject({ error: "Invalide password" });
-          resolve({
-            userId: result[0].id,
-            token: jwt.sign({ userId: result[0].id }, 
-            process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES,
-            }),
-          });
-        });
-      }
-    });
-  })
-    .then((response) => res.status(200).json({ response }))
-    .catch((error) => res.status(400).json({ error }));
-}; */
+   const token = req.headers.authorization.split(" ")[1];
+   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+   const id = decodedToken.userId;
+   let username = req.body.username;
+   let email = req.body.email;
+   let sql = 'UPDATE user SET username = ?, email = ? WHERE id = ?';
+   db.query(sql, [username, email, id], (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      console.log("Profile update");
+      return res.status(200).json(result);
+   })
+};
 
-exports.logout = (req, res, next) => {};
-
-exports.getAllProfiles = (req, res, next) => {};
+exports.deleteProfile = (req, res, next) => {
+   const token = req.headers.authorization.split(" ")[1];
+   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+   const userId = decodedToken.userId;
+   let sql = 'DELETE FROM user WHERE id = ?'
+   db.query(sql, [userId], (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      console.log("Profile deleted");
+      return res.status(200).json(result);
+   })
+};
 
 exports.getOneProfile = (req, res, next) => {};
 
-exports.updateProfile = (req, res, next) => {};
+exports.getAllProfiles = (req, res, next) => {};
 
-exports.deleteProfile = (req, res, next) => {};
+// Regex 
+const regexEmail = /[A-Za-z0-9_'~-]+(?:\.[A-Za-z0-9_'~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[a-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/
