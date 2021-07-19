@@ -21,9 +21,9 @@ function displayOnePost(post) {
 
                               <div class="w3-rest w3-padding">
                               <p>
-                              <textarea class="w3-input w3-border" id="commentContent" placeholder="Want to say something ?" style="resize:none"></textarea>
+                              <textarea class="w3-input w3-border w3-round" id="commentContent" placeholder="Want to say something ?" style="resize:none"></textarea>
                               </p>
-                                 <button id="comment_button" type="comment_button" class="w3-button w3-theme"><i class="fa fa-comment"></i>
+                                 <button id="comment_button" type="comment_button" class="w3-button w3-indigo w3-round"><i class="fa fa-comment"></i>
                                  Comment</button>
                                </div>
                                <section id="comments_section"></section>
@@ -34,54 +34,65 @@ function displayOnePost(post) {
   const commentContent = document.getElementById("commentContent");
   const commentButton = document.getElementById("comment_button");
   // Function
-  
   commentButton.addEventListener("click", (e) => {
-    fetch("http://localhost:3000/comment/" + id, {
-      method: "post",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.token}`,
-      },
-      body: JSON.stringify({
-        content: commentContent.value,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((comments) => {
-            displayComments(comments);
-          });
-        }
-      })
-      .catch((error) => console.log(error));
+    e.preventDefault();
+    addComment();
   });
+}
+
+function addComment(comments) {
+  fetch("http://localhost:3000/comment/" + id, {
+    method: "post",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      Authorization: `Bearer ${localStorage.token}`,
+    },
+    body: JSON.stringify({
+      content: commentContent.value,
+    }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then(function () {
+      console.log("Comments added");
+      displayComments(comments);
+      location.reload();
+    })
+    .catch(function (error) {
+      return error;
+    });
 }
 
 // Display comments
 function displayComments(comments) {
   comments.forEach((comments) => {
-    if (localStorage.userId == comments.fk_userId) {
-      comments_section.innerHTML += `<section class="w3-small w3-margin w3-padding">
+    if ((localStorage.userId == comments.fk_userId) || localStorage.isAdmin == 1) {
+      comments_section.innerHTML += `<section class="w3-small w3-margin w3-padding w3-round w3-theme-l5">
+                                       
                                        <span class="w3-right w3-opacity w3-small">Post : ${comments.date} at ${comments.time}</span>
+                                       <div class="w3-bar">
                                        <a href="#" class="profile_link" style="text-decoration:none" style="width:50%"<h4>${comments.username}</h4><br></a>
+                                       <button type="button" id="deleteButton${comments.id}" class="w3-button w3-small w3-pink w3-round w3-right"><i class="fa fa-trash"></i>
+                                       delete</button>
+                                       </div>
+                                       
                                        <hr class="w3-clear">
                                        <p><br>${comments.content}</p>
-                                       <button id="comment_delete_button${comments.id}" type="button" class="w3-button w3-theme">delete<i class="fa fa-times-circle"></i></button>
-                                       <button type="button" id="deleteButton${comments.id}" class="w3-button w3-margin w3-small w3-red"><i class="fa fa-trash"></i>
-                                       delete</button>
+                                       
                                     </section>`;
 
       /*  const commentDeleteButton = document.getElementById(`deleteButton${comments.id}`); */
       document
         .getElementById(`deleteButton${comments.id}`)
         .addEventListener("click", (e) => {
-          console.log("click");
+          e.preventDefault ();
           if (confirm("Delete post ?")) {
             fetch("http://localhost:3000/comment/" + comments.id, {
               method: "DELETE",
               headers: {
-               "Content-type": "application/json; charset=UTF-8",
-               "Authorization": `Bearer ${localStorage.token}`
+                "Content-type": "application/json; charset=UTF-8",
+                Authorization: `Bearer ${localStorage.token}`,
               },
             })
               .then((response) => {
@@ -99,11 +110,11 @@ function displayComments(comments) {
           }
         });
     } else {
-      comments_section.innerHTML += `<section id="display_comment" class="w3-small">
+      comments_section.innerHTML += `<section class="w3-small w3-margin w3-padding w3-round w3-theme-l5">
                                        <span class="w3-right w3-opacity w3-small">Post : ${comments.date} at ${comments.time}</span>
                                        <a href="#" class="profile_link" style="text-decoration:none"<h4>${comments.username}</h4><br></a>
                                        <hr class="w3-clear">
-                                       <p>Content :<br>${comments.content}</p>
+                                       <p><br>${comments.content}</p>
                                     </section>`;
     }
   });
@@ -140,17 +151,21 @@ fetch("http://localhost:3000/" + id, {
   });
 
 // Get comments
-fetch("http://localhost:3000/comment/" + id, {
-  headers: { Authorization: `Bearer ${localStorage.token}` },
-})
-  .then((response) => {
-    console.log("response:", response);
-    return response.json();
+function getComment() {
+  fetch("http://localhost:3000/comment/" + id, {
+    headers: { Authorization: `Bearer ${localStorage.token}` },
   })
-  .then((comments) => {
-    console.log(comments);
-    displayComments(comments);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+    .then((response) => {
+      console.log("response:", response);
+      return response.json();
+    })
+    .then((comments) => {
+      console.log(comments);
+      displayComments(comments);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+getComment();

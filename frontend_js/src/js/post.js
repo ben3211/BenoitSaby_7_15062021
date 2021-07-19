@@ -29,7 +29,7 @@ function displayAllPosts(posts) {
   posts.reverse(posts.createdAt).forEach((posts) => {
     urlPostAndComment(posts.id);
     // If user created the post
-    if (localStorage.userId == posts.fk_userId) {
+    if ((localStorage.userId == posts.fk_userId) || localStorage.isAdmin == 1) {
       postSection.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
                                     <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                                     <span class="w3-right w3-opacity w3-small">Post : ${posts.date} at ${posts.time}</span>
@@ -37,25 +37,21 @@ function displayAllPosts(posts) {
                                     <hr class="w3-clear">
                                     <p><br>${posts.content}</p>
 
-                                    <div class= w3-bar w3-container>
-                                       <button type="button" class="w3-button w3-theme w3-margin w3-small"><i class="fa fa-thumbs-up"></i>Like</button> 
-                                       <button type="button" id="deleteButton${posts.id}" class="w3-button w3-margin w3-small w3-red"><i class="fa fa-trash"></i>
+                                    <div class= w3-bar w3-container w3-tiny>
+                                       <button type="button" class="w3-button w3-tiny w3-round-xxlarge w3-green"><i class="fa fa-thumbs-up"></i>Like</button> 
+                                       <button type="button" id="deleteButton${posts.id}" class="w3-button w3-tiny w3-red w3-round-xxlarge"><i class="fa fa-trash"></i>
                                        delete</button>
-                                       <button type="button" id="modifyButton" class="w3-button w3-theme w3-margin w3-small"><i class="fa fa-fingerprint"></i>
+                                       <button type="button" id="modifyButton" class="w3-button w3-tiny w3-indigo w3-round-xxlarge"><i class="fa fa-fingerprint"></i>
                                        Modify</button>
                                     </div>
                                     
 
                                     <div class="w3-row w3-section">
-                                       <button type='button' id="commentButton${posts.id}" class="w3-col w3-button w3-theme" style="width:50px"><i
-                                       class="w3-xlarge fa fa-pencil"></i></button>
-                                          <div class="w3-rest">
-                                             <input id="commentContent" class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
-                                          </div>
-                                             <span id="link_comments">Comments<a href="${newUrl}" class="w3-text-blue" style="text-decoration:none"></span> 
-                                             <span id="link_comments">Comments<a href="${newUrl}" class='w3-text-blue'></a></span>
+                                       <div class="w3-rest">
+                                          <a class="link__post w3-text-blue w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
                                        </div>
-                                    </div>`;
+                                    </div>
+                                 </div>`;
 
       // Delete button
       const deleteButton = document.getElementById(`deleteButton${posts.id}`);
@@ -90,14 +86,13 @@ function displayAllPosts(posts) {
                                     <hr class="w3-clear">
                                     <p><br>${posts.content}</p>
                                     <div class="w3-row-padding" style="margin:0 -16px">
-  
+                                    <div class= w3-bar w3-container>
+                                       <button type="button" class="w3-button w3-margin w3-tiny w3-round-xxlarge w3-green"><i class="fa fa-thumbs-up"></i>Like</button> 
+                                    </div>
                                     <div class="w3-row w3-section">
-                                       <button type='button' id="commentButton${posts.id}" class="w3-col w3-button w3-theme" style="width:50px"><i
-                                       class="w3-xlarge fa fa-pencil"></i></button>
-                                          <div class="w3-rest">
-                                             <input id="commentContent" class="w3-input w3-border" name="comment" type="text" placeholder="Comment">
-                                          </div>
-
+                                       <div class="w3-rest">
+                                          <a class="link__post w3-text-blue w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
+                                       </div>
                                     </div>
                                  </div>`;
     }
@@ -108,7 +103,7 @@ function displayAllPosts(posts) {
 postButton.addEventListener("click", (e) => {
   e.preventDefault();
   addPost();
-  getAllPost ();
+  getAllPost();
 });
 
 function addPost() {
@@ -127,13 +122,12 @@ function addPost() {
       return response.json();
     })
     .then(function () {
-       console.log("Post added");
+      console.log("Post added");
     })
     .catch(function (error) {
       return error;
     });
 }
-
 
 // Get all post
 function getAllPost() {

@@ -53,9 +53,14 @@ exports.login = (req, res, next) => {
     }
     const userId = result.id;
     const username = result.username;
-    const token = jwt.sign({ userId: result.id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES,
-    });
+    const token = jwt.sign(
+      { userId: result.id, moderator: result[0].isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES,
+        moderator: result.isAdmin,
+      }
+    );
     bcrypt
       .compare(req.body.password, result.password)
       .then((valid) => {
@@ -80,43 +85,44 @@ exports.login = (req, res, next) => {
 };
 
 exports.updateProfile = (req, res, next) => {
-   if (req.body.username == '' || req.body.email == '') {
-      return res.status(500).json({ error: 'Fields are empty' });
-   }
-   if (!regexEmail.test(req.body.email)) {
-      return res.status(500).json({ error: 'Email adress invalid' });
-   }
+  if (req.body.username == "" || req.body.email == "") {
+    return res.status(500).json({ error: "Fields are empty" });
+  }
+  if (!regexEmail.test(req.body.email)) {
+    return res.status(500).json({ error: "Email adress invalid" });
+  }
 
-   const token = req.headers.authorization.split(" ")[1];
-   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-   const id = decodedToken.userId;
-   let username = req.body.username;
-   let email = req.body.email;
-   let sql = 'UPDATE user SET username = ?, email = ? WHERE id = ?';
-   db.query(sql, [username, email, id], (err, result) => {
-      if (err) throw err;
-      console.log(result);
-      console.log("Profile update");
-      return res.status(200).json(result);
-   })
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const id = decodedToken.userId;
+  let username = req.body.username;
+  let email = req.body.email;
+  let sql = "UPDATE user SET username = ?, email = ? WHERE id = ?";
+  db.query(sql, [username, email, id], (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    console.log("Profile update");
+    return res.status(200).json(result);
+  });
 };
 
 exports.deleteProfile = (req, res, next) => {
-   const token = req.headers.authorization.split(" ")[1];
-   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-   const userId = decodedToken.userId;
-   let sql = 'DELETE FROM user WHERE id = ?'
-   db.query(sql, [userId], (err, result) => {
-      if (err) throw err;
-      console.log(result);
-      console.log("Profile deleted");
-      return res.status(200).json(result);
-   })
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.userId;
+  let sql = "DELETE FROM user WHERE id = ?";
+  db.query(sql, [userId], (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    console.log("Profile deleted");
+    return res.status(200).json(result);
+  });
 };
 
 exports.getOneProfile = (req, res, next) => {};
 
 exports.getAllProfiles = (req, res, next) => {};
 
-// Regex 
-const regexEmail = /[A-Za-z0-9_'~-]+(?:\.[A-Za-z0-9_'~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[a-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/
+// Regex
+const regexEmail =
+  /[A-Za-z0-9_'~-]+(?:\.[A-Za-z0-9_'~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[a-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/;
