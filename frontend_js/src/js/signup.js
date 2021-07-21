@@ -20,7 +20,7 @@ form.addEventListener("change", function () {
     username.checkValidity() &&
     email.checkValidity() &&
     password.checkValidity() &&
-    verifyPassword.value.length >= 8
+    verifyPassword.value.length >= 4
   ) {
     // error
     signupButton.removeAttribute("disabled");
@@ -32,10 +32,25 @@ form.addEventListener("change", function () {
 // Fetch
 signupButton.addEventListener("click", (e) => {
   e.preventDefault();
-  if (verifyPassword.value != password.value) {
-    alert("Password are differents !");
-  } else {
-    signup();
+
+  // Api validation
+  let valid = true;
+  for (let input of document.querySelectorAll(
+    'input[type="text"], input[type="email"]'
+  )) {
+    valid = valid && input.reportValidity();
+    if (!valid) {
+      break;
+    }
+  }
+  if (valid) {
+    if (verifyPassword.value != password.value) {
+      alert("Password are differents !");
+      return error;
+    }
+     else {
+      signup();
+    }
   }
 });
 
@@ -54,15 +69,18 @@ function signup() {
     }),
   })
     .then((response) => {
-      return response.json();
+       status = response.status;
+       if (status == 201) {
+         window.location.href = "../../index.html";
+         return response.json();
+       } else {
+          alert("Email already in use");
+       }
     })
-    .then(function (data) {
-      console.log(data);
-      window.location.href = "../../index.html";
-    })
-    .catch(function (error) {
-      return error;
+    .catch( (error) => {
+      console.log(error);
     });
+
 }
 
 /****************************************** Error messages ***************************************/
@@ -77,8 +95,8 @@ const error_password = document.getElementById("error_password");
 usernameValidity.addEventListener("blur", () => {
   if (!usernameValidity.checkValidity()) {
     error_username.textContent = "username invalid";
-    error_username.setAttribute = ('class');
-    error_username.className = ('w3-text-red w3-margin-left');
+    error_username.setAttribute = "class";
+    error_username.className = "w3-text-red w3-margin-left";
   } else {
     error_username.textContent = "";
   }
@@ -87,8 +105,8 @@ usernameValidity.addEventListener("blur", () => {
 emailValidity.addEventListener("blur", () => {
   if (!emailValidity.checkValidity()) {
     error_email.textContent = "mail adress invalid";
-    error_email.setAttribute = ('class');
-    error_email.className = ('w3-text-red w3-margin-left');
+    error_email.setAttribute = "class";
+    error_email.className = "w3-text-red w3-margin-left";
   } else {
     error_email.textContent = "";
   }
@@ -97,8 +115,8 @@ emailValidity.addEventListener("blur", () => {
 passworValidity.addEventListener("blur", () => {
   if (!passworValidity.checkValidity()) {
     error_password.textContent = "Please rise up password complexity";
-    error_password.setAttribute = ('class');
-    error_password.className = ('w3-text-red w3-margin-left');
+    error_password.setAttribute = "class";
+    error_password.className = "w3-text-red w3-margin-left";
   } else {
     error_password.textContent = "";
   }

@@ -28,7 +28,7 @@ loginButton.addEventListener("click", (e) => {
           console.log(data);
           localStorage.setItem("userId", data.id);
           localStorage.setItem("token", data.token);
-          localStorage.setItem("isAdmin", data.moderator);
+          localStorage.setItem("isAdmin", data.isAdmin);
           window.location.href = "./src/views/home.html";
         })
         .catch(error => console.error("error:" + error));

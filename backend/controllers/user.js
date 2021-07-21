@@ -24,7 +24,7 @@ exports.signup = (req, res, next) => {
           .hash(req.body.password, 10)
           .then((hash) => {
             let sql =
-              "INSERT INTO user VALUES(NULL, ?, ?, ?, null, null, null, null)";
+              "INSERT INTO user VALUES(NULL, ?, ?, ?, null, 0, null, null)";
             db.query(sql, [username, email, hash], (error, results) => {
               if (error) {
                 return res.status(400).json({ error: "Request error" });
@@ -53,13 +53,11 @@ exports.login = (req, res, next) => {
     }
     const userId = result.id;
     const username = result.username;
+    const isAdmin = result.isAdmin;
     const token = jwt.sign(
-      { userId: result.id, moderator: result[0].isAdmin },
+      { userId: result.id, isAdmin: result.isAdmin },
       process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES,
-        moderator: result.isAdmin,
-      }
+      { expiresIn: process.env.JWT_EXPIRES }
     );
     bcrypt
       .compare(req.body.password, result.password)
@@ -74,6 +72,7 @@ exports.login = (req, res, next) => {
           id: userId,
           username: username,
           token: token,
+          isAdmin: isAdmin
         });
       })
       .catch((error) => {

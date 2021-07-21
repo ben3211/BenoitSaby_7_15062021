@@ -15,6 +15,7 @@ require('dotenv').config({ path: path.resolve(__dirname, './config/.env') });
 // Router importation 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
+const moderatorRoutes = require ('./routes/moderator');
 
 app.use(express.json());
 
@@ -36,6 +37,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // Define routes
 app.use('/', userRoutes);
 app.use('/', postRoutes);
+app.use('/modo', moderatorRoutes);
 
 
 // App exportation

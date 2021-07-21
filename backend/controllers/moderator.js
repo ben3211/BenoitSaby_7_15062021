@@ -50,7 +50,8 @@ exports.getComment = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  const moderator = decodedToken.moderator;
+  let isAdmin = decodedToken.moderator;
+  
   if (isAdmin == 1) {
    let postId = req.params.id;
    let sql = "DELETE FROM post WHERE fk_userId = ?";

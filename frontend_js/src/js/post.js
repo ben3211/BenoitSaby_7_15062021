@@ -25,8 +25,8 @@ const displayComment = document.getElementById("display_comment");
 const commentDeleteButton = document.getElementById("comment_delete_button");
 
 // Display posts
-function displayAllPosts(posts) {
-  posts.reverse(posts.createdAt).forEach((posts) => {
+async function displayAllPosts(posts) {
+  posts.forEach((posts) => {
     urlPostAndComment(posts.id);
     // If user created the post
     if ((localStorage.userId == posts.fk_userId) || localStorage.isAdmin == 1) {
@@ -99,14 +99,25 @@ function displayAllPosts(posts) {
   });
 }
 
+// Get all post
+fetch("http://localhost:3000/posts", {
+  headers: { Authorization: `Bearer ${localStorage.token}` },
+})
+  .then((response) => {
+    if (response.ok) {
+      console.log("response:", response);
+      response.json().then(function (posts) {
+        displayAllPosts(posts);
+        console.log(posts);
+      });
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
 // Execution
 postButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  addPost();
-  getAllPost();
-});
-
-function addPost() {
   fetch("http://localhost:3000/add", {
     method: "POST",
     headers: {
@@ -119,31 +130,62 @@ function addPost() {
     }),
   })
     .then((response) => {
-      return response.json();
-    })
-    .then(function () {
-      console.log("Post added");
+      if (response.ok) {
+        response.json().then(function (posts) {
+          displayAllPosts(posts);
+          location.reload();
+          console.log("Post added");
+        });
+      }
     })
     .catch(function (error) {
       return error;
     });
-}
+  /* e.preventDefault();
+  addPost();
+  getAllPost(); */
+});
+
+/* function addPost() {
+  fetch("http://localhost:3000/add", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${localStorage.token}`,
+    },
+    body: JSON.stringify({
+      content: content.value,
+      fk_userId: localStorage.getItem("userId"),
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then(function () {
+          console.log("Post added");
+        });
+      }
+    })
+    .catch(function (error) {
+      return error;
+    });
+} */
 
 // Get all post
-function getAllPost() {
+/* function getAllPost() {
   fetch("http://localhost:3000/posts", {
     headers: { Authorization: `Bearer ${localStorage.token}` },
   })
     .then((response) => {
-      return response.json();
-    })
-    .then((posts) => {
-      displayAllPosts(posts);
-      console.log(posts);
-      return posts;
+      if (response.ok) {
+        console.log("response:", response);
+        response.json().then(function (posts) {
+          displayAllPosts(posts);
+          console.log(posts);
+        });
+      }
     })
     .catch((error) => {
       console.log(error);
     });
-}
-getAllPost();
+} */
+/* getAllPost(); */
