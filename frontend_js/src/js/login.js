@@ -23,7 +23,8 @@ loginButton.addEventListener("click", (e) => {
     }),
   }).then((response) => {
     if (response.ok) {
-      response.json()
+      response
+        .json()
         .then((data) => {
           console.log(data);
           localStorage.setItem("userId", data.id);
@@ -31,8 +32,10 @@ loginButton.addEventListener("click", (e) => {
           localStorage.setItem("isAdmin", data.isAdmin);
           window.location.href = "./src/views/home.html";
         })
-        .catch(error => console.error("error:" + error));
-        console.log("username or password invalid")
+        .catch((error) => console.error("error:" + error));
+    } else {
+
+      alert("username or password invalid");
     }
   });
 });
