@@ -1,8 +1,6 @@
 const mysql = require("mysql2");
 const db = require("../config/db");
 const jwt = require("jsonwebtoken");
-
-// Db connexion
 const bcrypt = require("bcrypt");
 
 /****************************************** Signup ***************************************/
@@ -36,7 +34,7 @@ exports.signup = (req, res, next) => {
       }
     }
   );
-};
+}; 
 
 /****************************************** Login ***************************************/
 exports.login = (req, res, next) => {
@@ -50,7 +48,7 @@ exports.login = (req, res, next) => {
       return res.status(404).json({
         error: "Username not found",
       });
-    }
+    } 
     const userId = result.id;
     const username = result.username;
     const isAdmin = result.isAdmin;

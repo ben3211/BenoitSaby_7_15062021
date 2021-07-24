@@ -1,9 +1,10 @@
 const mysql = require('mysql2');
+require('dotenv').config()
 
 const db = mysql.createConnection({
    host     : 'localhost',
-   user     : 'root',
-   password : 'GHRr4Q2c', 
+   user     : process.env.USER_DB,
+   password : process.env.PASSWORD_DB, 
    database : 'groupomania',
    dialect: "mysql",
    pool: {
