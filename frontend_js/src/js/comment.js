@@ -84,7 +84,7 @@ async function displayComments(comments) {
                                        <span class="w3-right w3-opacity w3-small">Post : ${comments.date} at ${comments.time}</span>
                                        <div class="w3-bar">
                                        <a href="#" class="profile_link" style="text-decoration:none" style="width:50%"<h4>${comments.username}</h4><br></a>
-                                       <button type="button" id="deleteButton${comments.id}" class="w3-button w3-small w3-pink w3-round w3-right"><i class="fa fa-trash"></i>
+                                       <button type="button" id="deleteButton${comments.id}" class="w3-button w3-small w3-highway-red w3-round w3-right"><i class="fa fa-trash"></i>
                                        delete</button>
                                        </div>
                                        

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
+const helmet = require("helmet");
+const authLimiter = require ('./middleware/authLimiter')
 
 //Database connexion
 const db = require ('./config/db');
@@ -33,6 +35,9 @@ app.use(session({
 	saveUninitialized: true
 }));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Helmet
+app.use(helmet());
 
 // Define routes
 app.use('/', userRoutes);

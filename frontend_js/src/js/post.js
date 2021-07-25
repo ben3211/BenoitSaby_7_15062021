@@ -38,8 +38,8 @@ async function displayAllPosts(posts) {
                                     <p><br>${posts.content}</p>
 
                                     <div class= w3-bar w3-container w3-tiny>
-                                       <button type="button" class="w3-button w3-tiny w3-round-xxlarge w3-green"><i class="fa fa-thumbs-up"></i>Like</button> 
-                                       <button type="button" id="deleteButton${posts.id}" class="w3-button w3-tiny w3-red w3-round-xxlarge"><i class="fa fa-trash"></i>
+                                       <button type="button" class="w3-button w3-tiny w3-round-xxlarge w3-highway-green"><i class="fa fa-thumbs-up"></i> Like</button> 
+                                       <button type="button" id="deleteButton${posts.id}" class="w3-button w3-tiny w3-highway-red w3-round-xxlarge"><i class="fa fa-trash"></i>
                                        delete</button>
                                        <button type="button" id="modifyButton" class="w3-button w3-tiny w3-indigo w3-round-xxlarge"><i class="fa fa-fingerprint"></i>
                                        Modify</button>
@@ -48,7 +48,7 @@ async function displayAllPosts(posts) {
 
                                     <div class="w3-row w3-section">
                                        <div class="w3-rest">
-                                          <a class="link__post w3-text-blue w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
+                                          <a class="link__post w3-text-indigo w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
                                        </div>
                                     </div>
                                  </div>`;

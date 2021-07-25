@@ -10,6 +10,7 @@
    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+   <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-highway.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <link rel="icon" href="../../public/img/icon_alpha.png" type="image/png" sizes="40x40">
 
@@ -43,7 +44,8 @@
    <!-- Navbar on small screens -->
    <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
       <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+      <a href="../../index.html" class="w3-bar-item w3-button w3-padding-large" aria-label="Logout">Logout</a>
+      <a href="./profile.html" class="w3-bar-item w3-button w3-padding-large" aria-label="My Profile">My Profile</a>
    </div>
 
    <div class="w3-container w3-content w3-display-center" style="max-width:500px;margin-top:80px;" id="contact">
@@ -52,7 +54,8 @@
          <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
          <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
          <p>Questions? Go ahead, ask them:</p> -->
-      <p class="w3-center"><img src="" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+      <p class="w3-center"><img src="../../public/img/avatar2.png" class="w3-circle" style="height:106px;width:106px"
+            alt="Avatar"></p>
       <form method="POST">
          <p><input id="username" class="w3-input w3-border" type="text" placeholder="Username" name="Username"
                pattern="[a-zA-Z]{2,20}" required></p>
@@ -64,7 +67,7 @@
          <div class=" w3-container w3-content ">
             <button id="update_button" type="submit" class="w3-button w3-indigo w3-third w3-round-xlarge"
                style="max-width:140px;margin-top:5px;">Save changes</button>
-            <button id="delete_button" type="submit" class="w3-button w3-right w3-pink w3-third w3-round-xlarge"
+            <button id="delete_button" type="submit" class="w3-button w3-right w3-highway-red w3-third w3-round-xlarge"
                style="max-width:140px;margin-top:5px;">Delete
                profile</button>
          </div>
@@ -73,9 +76,8 @@
 
    <!-- Footer -->
    <footer class="w3-container w3-theme-d2 w3-padding-16 w3-bottom">
-      <h5> <img src="../../public/img/icon-left-font-monochrome-redandwight_small.png"
-            class="w3-display-middle w3-hide-small w3-margin-left" style="width:15%;max-width:200px"></img>
-      </h5>
+      <img src="../../public/img/icon-left-font-monochrome-redandwight_small.png"
+         class="w3-display-middle w3-hide-small w3-margin-left" style="width:15%;max-width:200px"></img>
    </footer>
 
    <script>
