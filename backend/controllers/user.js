@@ -34,7 +34,7 @@ exports.signup = (req, res, next) => {
       }
     }
   );
-}; 
+};
 
 /****************************************** Login ***************************************/
 exports.login = (req, res, next) => {
@@ -48,7 +48,7 @@ exports.login = (req, res, next) => {
       return res.status(404).json({
         error: "Username not found",
       });
-    } 
+    }
     const userId = result.id;
     const username = result.username;
     const isAdmin = result.isAdmin;
@@ -70,7 +70,7 @@ exports.login = (req, res, next) => {
           id: userId,
           username: username,
           token: token,
-          isAdmin: isAdmin
+          isAdmin: isAdmin,
         });
       })
       .catch((error) => {
@@ -94,13 +94,30 @@ exports.updateProfile = (req, res, next) => {
   const id = decodedToken.userId;
   let username = req.body.username;
   let email = req.body.email;
-  let sql = "UPDATE user SET username = ?, email = ? WHERE id = ?";
-  db.query(sql, [username, email, id], (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    console.log("Profile update");
-    return res.status(200).json(result);
-  });
+  let password = req.body.password;
+
+  db.query(
+    "SELECT email FROM user WHERE email = ?",
+    [email],
+    (error, results) => {
+      if (results.length > 0) {
+        return res.status(401).json({ error: "That email is already in use" });
+      } else {
+        bcrypt
+         .hash(req.body.password, 10)
+         .then((hash) => {
+          let sql =
+            "UPDATE user SET username = ?, email = ?, password = ? WHERE id = ?";
+          db.query(sql, [username, email, hash, id], (err, result) => {
+            if (err) throw err;
+            console.log(result);
+            console.log("Profile update");
+            return res.status(200).json(result); 
+          });
+        });
+      }
+    }
+  );
 };
 
 exports.deleteProfile = (req, res, next) => {

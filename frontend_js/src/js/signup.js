@@ -45,7 +45,7 @@ signupButton.addEventListener("click", (e) => {
   }
   if (valid) {
     if (verifyPassword.value != password.value) {
-      alert("Password are differents !");
+      alert("Passwords are differents !");
       return error;
     }
      else {
