@@ -5,7 +5,7 @@ const db = mysql.createConnection({
    host     : 'localhost',
    user     : process.env.USER_DB,
    password : process.env.PASSWORD_DB, 
-   database : 'groupomania',
+   database : process.env.NAME_DB,
    dialect: "mysql",
    pool: {
       max: 5,
