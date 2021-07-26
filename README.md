@@ -20,9 +20,9 @@
 #### &nbsp; 📚 Base de données MySQL
 * Ouvrez votre terminal
 * Connectez-vous à MySQL : `mysql -h localhost -u root -p`
-* Créez la base de données : `CREATE DATABASE groupomania CHARACTER SET 'utf8';`
-* Utilisez la base de données : `USE groupomania;`
-* Importez la base de données présente : `SOURCE groupomania.sql;`
-* Retrouver le fichier nommé `.env_example` dans la partie backend, renseigner votre identifiant et votre mot de passe (sans espace aprés le '='). Puis supprimer la partie `_exemple` afin d'obtenir un fichier nommé `.env`
+* Créez la base de données : `CREATE DATABASE groupomania_db CHARACTER SET 'utf8';`
+* Utilisez la base de données : `USE groupomania_db;`
+* Importez la base de données présente en inscrivant le chemin jusqu'au fichier : `SOURCE groupomania_db.sql;`
+* Retrouver le fichier nommé `.env_exemple` dans la partie backend, renseigner votre identifiant, votre mot de passe, entrez également une clé secrète qui sera utilisée pour encoder et décoder les tokens d'authenfications, enfin entrez une durée en heure avant l'expiration des tokens d'authentifications.  (sans espace aprés le '='). Puis supprimer la partie `_exemple` afin d'obtenir un fichier nommé `.env`
 
 _Ce projet est en construction, la pertie frontend_vuejs prépare la migration avec le framework vue.js_

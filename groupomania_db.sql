@@ -11,13 +11,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema groupomania
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `groupomania` DEFAULT CHARACTER SET utf8 ;
-USE `groupomania` ;
+CREATE SCHEMA IF NOT EXISTS `groupomania_db` DEFAULT CHARACTER SET utf8 ;
+USE `groupomania_db` ;
 
 -- -----------------------------------------------------
 -- Table `groupomania`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `groupomania`.`user` (
+CREATE TABLE IF NOT EXISTS `groupomania_db`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(50) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
@@ -33,13 +33,13 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 87
 DEFAULT CHARACTER SET = utf8mb3;
 
-INSERT INTO `groupomania`.`user` (`id`, `username`, `email`, `password`, `isAdmin`) VALUES 
-('69', 'aze', 'moderator@mail.com', '$2b$10$o34iPj5SFAsyZGR7YObaNeSgwXeAv14ZEgIpqyf1zuYRERAkOpQqG', '1'); 
+INSERT INTO `groupomania_db`.`user` (`id`, `username`, `email`, `password`, `isAdmin`) VALUES 
+('69', 'Moderator', 'moderator@mail.com', '$2b$10$o34iPj5SFAsyZGR7YObaNeSgwXeAv14ZEgIpqyf1zuYRERAkOpQqG', '1'); 
 
 -- -----------------------------------------------------
 -- Table `groupomania`.`post`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `groupomania`.`post` (
+CREATE TABLE IF NOT EXISTS `groupomania_db`.`post` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NULL DEFAULT NULL,
   `content` VARCHAR(255) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`post` (
   INDEX `fk_post_user1_idx` (`fk_userId` ASC) VISIBLE,
   CONSTRAINT `fk_post_user1`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `groupomania`.`user` (`id`)
+    REFERENCES `groupomania_db`.`user` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 164
@@ -61,7 +61,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 -- Table `groupomania`.`comment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `groupomania`.`comment` (
+CREATE TABLE IF NOT EXISTS `groupomania_db`.`comment` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(255) NOT NULL,
   `createdAt` DATETIME NOT NULL,
@@ -72,11 +72,11 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`comment` (
   INDEX `fk_comment_post1_idx` (`fk_postId` ASC) VISIBLE,
   CONSTRAINT `fk_comment_post1`
     FOREIGN KEY (`fk_postId`)
-    REFERENCES `groupomania`.`post` (`id`)
+    REFERENCES `groupomania_db`.`post` (`id`)
     ON DELETE CASCADE,
   CONSTRAINT `fk_comment_user`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `groupomania`.`user` (`id`)
+    REFERENCES `groupomania_db`.`user` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 184
@@ -86,7 +86,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 -- Table `groupomania`.`like`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `groupomania`.`like` (
+CREATE TABLE IF NOT EXISTS `groupomania_db`.`like` (
   `idlikes` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `like` SMALLINT NOT NULL,
   `fk_userId` INT UNSIGNED NOT NULL,
@@ -96,10 +96,10 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`like` (
   INDEX `fk_like_post1_idx` (`fk_postId` ASC) VISIBLE,
   CONSTRAINT `fk_like_post1`
     FOREIGN KEY (`fk_postId`)
-    REFERENCES `groupomania`.`post` (`id`),
+    REFERENCES `groupomania_db`.`post` (`id`),
   CONSTRAINT `fk_like_user1`
     FOREIGN KEY (`fk_userId`)
-    REFERENCES `groupomania`.`user` (`id`))
+    REFERENCES `groupomania_db`.`user` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
