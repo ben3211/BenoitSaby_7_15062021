@@ -9,7 +9,7 @@
 * Cloner le repository suivant [GitHub](https://github.com/ben3211/BenoitSaby_7_15062021.git)
 
 #### &nbsp; 🖥️ Frontend
-* Rendez-vous sur `http://localhost:3000` pour tester l'application.
+* Rendez-vous sur `http://localhost:5500/frontend_js` pour tester l'application.
 
 #### &nbsp; 🔨 backend
 * Ouvrez votre terminal

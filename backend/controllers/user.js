@@ -83,10 +83,10 @@ exports.login = (req, res, next) => {
 
 exports.updateProfile = (req, res, next) => {
   if (req.body.username == "" || req.body.email == "") {
-    return res.status(500).json({ error: "Fields are empty" });
+    return res.status(404).json({ error: "Fields are empty" });
   }
   if (!regexEmail.test(req.body.email)) {
-    return res.status(500).json({ error: "Email adress invalid" });
+    return res.status(403).json({ error: "Email adress invalid" });
   }
 
   const token = req.headers.authorization.split(" ")[1];

@@ -1,5 +1,7 @@
 const http = require('http');
 const app = require ('./app');
+require('dotenv').config()
+
 /* const db = require("./models/index"); */ // Sequelize
 
 // Make sure the port provided is number or string

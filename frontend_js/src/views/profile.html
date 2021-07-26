@@ -31,10 +31,7 @@
          <img src="../../public/img/icon-left-font-monochrome-redandwight_small.png"
             class="w3-display-middle w3-hide-small w3-margin-left" style="width:20%;max-width:200px"></img>
          <button type="button" id="logoutButton"
-            class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout"><i
-               class="fa fa-sign-out-alt"></i>
-            <img src="" class="w3-circle" style="height:23px;width:23px" alt="Logout">
-            <!-- <i class="fa fa-sign-out-alt"></i> -->
+            class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">Logout
          </button>
 
       </div>
@@ -49,21 +46,19 @@
    </div>
 
    <div class="w3-container w3-content w3-display-center" style="max-width:500px;margin-top:80px;" id="contact">
-      <h2></h2>
-      <!--          <i class="fa fa-map-marker" style="width:30px"></i> Chicago, US<br>
-         <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
-         <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
-         <p>Questions? Go ahead, ask them:</p> -->
       <p class="w3-center"><img src="../../public/img/avatar2.png" class="w3-circle" style="height:106px;width:106px"
             alt="Avatar"></p>
       <form method="POST">
          <p><input id="username" class="w3-input w3-border" type="text" placeholder="Username" name="Username"
-               pattern="[a-zA-Z]{2,20}" required></p>
+               pattern="[a-zA-Z0-9-]+" required></p>
          <p id="error_username" class="error__input"></p>
+
          <p><input id="email" class="w3-input w3-border" type="text" placeholder="Email" name="Email"></p>
          <p id="error_email" class="error__input"></p>
+
          <!--  <p><input class="w3-input w3-border" type="password" placeholder="Change password" required name="Location"></p>
          <p><input class="w3-input w3-border" type="password" placeholder="Verify password" required name="Location"></p> -->
+         
          <div class=" w3-container w3-content ">
             <button id="update_button" type="submit" class="w3-button w3-indigo w3-third w3-round-xlarge"
                style="max-width:140px;margin-top:5px;">Save changes</button>

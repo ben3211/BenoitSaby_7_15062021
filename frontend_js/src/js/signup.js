@@ -72,15 +72,19 @@ function signup() {
        status = response.status;
        if (status == 201) {
          window.location.href = "../../index.html";
+         console.log("new user !")
          return response.json();
-       } else {
+       } if (status == 400) {
+         alert("Password complexity");
+       }
+       
+       else {
           alert("Email already in use");
        }
     })
-    .catch( (error) => {
-      console.log(error);
+    .catch((error) => {
+     
     });
-
 }
 
 /****************************************** Error messages ***************************************/

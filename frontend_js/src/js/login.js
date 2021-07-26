@@ -22,6 +22,7 @@ loginButton.addEventListener("click", (e) => {
       password: password.value,
     }),
   }).then((response) => {
+   status = response.status;
     if (response.ok) {
       response
         .json()
@@ -32,11 +33,13 @@ loginButton.addEventListener("click", (e) => {
           localStorage.setItem("isAdmin", data.isAdmin);
           window.location.href = "./src/views/home.html";
         })
-        .catch((error) => console.error("error:" + error));
-    } else {
-
-      alert("username or password invalid");
-    }
+    } 
+    if (status == 404) {
+      alert("username not found");
+     }
+     if (status == 401) {
+      alert("Wrong password");
+     }
   });
 });
 

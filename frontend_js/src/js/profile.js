@@ -27,13 +27,25 @@ function updateProfile () {
       }),
     })
       .then((response) => {
-        return response.json();
+       status = response.status;
+       if (status == 404) {
+         alert("Field empty or invalid");
+         return response.json();
+       }
+       if (status == 403) {
+         alert("Email adress invalid");
+         return response.json();
+       }
+       else {
+         alert("profile updated !")
+         window.location.href = "home.html";
+       }
       })
-      .then(function (data) {
+      /* .then(function (data) {
         console.log(data);
         alert("profile updated !")
         window.location.href = "home.html";
-      })
+      }) */
       .catch(function (error) {
         return error;
       });
@@ -85,7 +97,6 @@ username.addEventListener("blur", () => {
    errorUsername.textContent = "username invalid";
    errorUsername.setAttribute = ('class');
    errorUsername.className = ('w3-text-red w3-margin-left');
-   e.preventDefault();
    return false;
   } else {
    errorUsername.textContent = "";
@@ -102,14 +113,3 @@ email.addEventListener("blur", () => {
   }
 });
 
-// check validity
-/* form.addEventListener("change", function () {
-   // Ok
-   if (
-     username.checkValidity() &&
-     email.checkValidity()
-   ) {
-     // Error
-     updateButton.removeAttribute("disabled");
-   }
- }); */

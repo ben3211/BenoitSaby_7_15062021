@@ -25,11 +25,11 @@ const displayComment = document.getElementById("display_comment");
 const commentDeleteButton = document.getElementById("comment_delete_button");
 
 // Display posts
-async function displayAllPosts(posts) {
+function displayAllPosts(posts) {
   posts.forEach((posts) => {
     urlPostAndComment(posts.id);
     // If user created the post
-    if ((localStorage.userId == posts.fk_userId) || localStorage.isAdmin == 1) {
+    if (localStorage.userId == posts.fk_userId || localStorage.isAdmin == 1) {
       postSection.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
                                     <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                                     <span class="w3-right w3-opacity w3-small">Post : ${posts.date} at ${posts.time}</span>
@@ -76,7 +76,6 @@ async function displayAllPosts(posts) {
             });
         }
       });
-
       // For the other users
     } else {
       postSection.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -109,14 +108,15 @@ fetch("http://localhost:3000/posts", {
       response.json().then(function (posts) {
         displayAllPosts(posts);
         console.log(posts);
-      });
+      })
+      .catch ( error => console.log(error))
     }
   })
   .catch((error) => {
     console.log(error);
   });
 
-// Execution
+// Post button
 postButton.addEventListener("click", (e) => {
   fetch("http://localhost:3000/add", {
     method: "POST",
@@ -132,8 +132,8 @@ postButton.addEventListener("click", (e) => {
     .then((response) => {
       if (response.ok) {
         response.json().then(function (posts) {
-          displayAllPosts(posts);
-          location.reload();
+           location.reload();
+           displayAllPosts(posts);
           console.log("Post added");
         });
       }
@@ -141,51 +141,4 @@ postButton.addEventListener("click", (e) => {
     .catch(function (error) {
       return error;
     });
-  /* e.preventDefault();
-  addPost();
-  getAllPost(); */
 });
-
-/* function addPost() {
-  fetch("http://localhost:3000/add", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${localStorage.token}`,
-    },
-    body: JSON.stringify({
-      content: content.value,
-      fk_userId: localStorage.getItem("userId"),
-    }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        response.json().then(function () {
-          console.log("Post added");
-        });
-      }
-    })
-    .catch(function (error) {
-      return error;
-    });
-} */
-
-// Get all post
-/* function getAllPost() {
-  fetch("http://localhost:3000/posts", {
-    headers: { Authorization: `Bearer ${localStorage.token}` },
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log("response:", response);
-        response.json().then(function (posts) {
-          displayAllPosts(posts);
-          console.log(posts);
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-} */
-/* getAllPost(); */
