@@ -17,28 +17,26 @@ function urlPostAndComment(postId) {
 // Variables declarations
 // Posts
 const postButton = document.getElementById("postButton");
-const postSection = document.getElementById("postSection");
 const content = document.getElementById("content");
-// Comments
-const commentButton = document.getElementById("commentButton");
-const displayComment = document.getElementById("display_comment");
-const commentDeleteButton = document.getElementById("comment_delete_button");
 
 // Display posts
 function displayAllPosts(posts) {
   posts.forEach((posts) => {
     urlPostAndComment(posts.id);
+    const postSection = document.getElementById("postSection");
+    const addPost = document.createElement("addPost");
+    addPost.className = "addPost";
     // If user created the post
     if (localStorage.userId == posts.fk_userId || localStorage.isAdmin == 1) {
-      postSection.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-                                    <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+      addPost.innerHTML += `<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+                                    <img src="../../public/img/avatar2.png" alt="avatar" class="w3-left w3-circle w3-text-light-grey w3-margin-right" style="width:60px">
                                     <span class="w3-right w3-opacity w3-small">Post : ${posts.date} at ${posts.time}</span>
                                     <a href="#" class="profile_link" style="text-decoration:none"<h4>${posts.username}</h4><br></a>
                                     <hr class="w3-clear">
                                     <p><br>${posts.content}</p>
 
                                     <div class= w3-bar w3-container w3-tiny>
-                                       <button type="button" class="w3-button w3-tiny w3-round-xxlarge w3-highway-green"><i class="fa fa-thumbs-up"></i> Like</button> 
+                                       <button type="button" class="w3-button w3-tiny w3-round-xxlarge w3-green"><i class="fa fa-thumbs-up"></i> Like</button> 
                                        <button type="button" id="deleteButton${posts.id}" class="w3-button w3-tiny w3-highway-red w3-round-xxlarge"><i class="fa fa-trash"></i>
                                        delete</button>
                                        <button type="button" id="modifyButton" class="w3-button w3-tiny w3-indigo w3-round-xxlarge"><i class="fa fa-fingerprint"></i>
@@ -52,10 +50,15 @@ function displayAllPosts(posts) {
                                        </div>
                                     </div>
                                  </div>`;
+                                 postSection.appendChild(addPost)
 
       // Delete button
-      const deleteButton = document.getElementById(`deleteButton${posts.id}`);
-      deleteButton.addEventListener("click", (e) => {
+      const deletePostButton = document.getElementById(
+        `deleteButton${posts.id}`
+      );
+
+      deletePostButton.addEventListener("click", (e) => {
+        e.preventDefault();
         if (confirm("Delete post ?")) {
           fetch("http://localhost:3000/" + posts.id, {
             method: "DELETE",
@@ -90,7 +93,7 @@ function displayAllPosts(posts) {
                                     </div>
                                     <div class="w3-row w3-section">
                                        <div class="w3-rest">
-                                          <a class="link__post w3-text-blue w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
+                                          <a class="link__post w3-text-indigo w3-margin-left" href="${newUrl}" style="text-decoration:none">See or comments..<a>
                                        </div>
                                     </div>
                                  </div>`;
@@ -100,16 +103,22 @@ function displayAllPosts(posts) {
 
 // Get all post
 fetch("http://localhost:3000/posts", {
-  headers: { Authorization: `Bearer ${localStorage.token}` },
+  headers: {
+    Accept: "application/json",
+    "content-type": "application/json",
+    Authorization: `Bearer ${localStorage.token}`,
+  },
 })
   .then((response) => {
     if (response.ok) {
       console.log("response:", response);
-      response.json().then(function (posts) {
-        displayAllPosts(posts);
-        console.log(posts);
-      })
-      .catch ( error => console.log(error))
+      response
+        .json()
+        .then(function (posts) {
+          displayAllPosts(posts);
+          console.log(posts);
+        })
+        .catch((error) => console.log(error));
     }
   })
   .catch((error) => {
@@ -132,8 +141,8 @@ postButton.addEventListener("click", (e) => {
     .then((response) => {
       if (response.ok) {
         response.json().then(function (posts) {
-           location.reload();
-           displayAllPosts(posts);
+          location.reload();
+          displayAllPosts(posts);
           console.log("Post added");
         });
       }
