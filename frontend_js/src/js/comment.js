@@ -19,7 +19,7 @@ function displayOnePost(post) {
                               <span class="w3-right w3-opacity w3-small">Post : ${post[0].date} at ${post[0].time}</span>
                               <a href="#" class="profile_link" style="text-decoration:none"<h4>${post[0].username}</h4><br></a>
                               <hr class="w3-clear">
-                              <p><br>${post[0].content}</p>
+                              <p class="w3-margin"><br>${post[0].content}</p>
 
                               <div class="w3-rest w3-padding">
                               <p>
