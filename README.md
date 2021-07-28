@@ -25,4 +25,8 @@
 * Importez la base de données présente en inscrivant le chemin jusqu'au fichier : `SOURCE groupomania_db.sql;`
 * Retrouver le fichier nommé `.env_exemple` dans la partie backend, renseigner votre identifiant, votre mot de passe, entrez également une clé secrète qui sera utilisée pour encoder et décoder les tokens d'authenfications, enfin entrez une durée en heure avant l'expiration des tokens d'authentifications.  (sans espace aprés le '='). Puis supprimer la partie `_exemple` afin d'obtenir un fichier nommé `.env`
 
+#### Information supplémentaire 
+* Accés moderaeur : login: `Moderator` | password: `Moderator` 
+* Pour la crétaion d'un nouvelle utilisateur, le mot de passe doit contenir entre 8 et 20 caractères avec au moins 1 majuscule, 1 minuscule et 1 chiffre.
+
 _Ce projet est en construction, la pertie frontend_vuejs prépare la migration avec le framework vue.js_
